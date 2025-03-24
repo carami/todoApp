@@ -26,7 +26,7 @@ public class TodoController {
 
     // 단일 ToDo 조회
     @GetMapping("/{id}")
-    public ResponseEntity<Todo> getTodoById(@PathVariable Long id) {
+    public ResponseEntity<Todo> getTodoById(@PathVariable("id") Long id) {
         return todoService.findById(id)
                 .map(ResponseEntity::ok)        // 값이 있으면 200 OK
                 .orElseGet(() -> ResponseEntity.notFound().build()); // 없으면 404
@@ -41,7 +41,7 @@ public class TodoController {
 
     // ToDo 수정 (전체 업데이트)
     @PutMapping("/{id}")
-    public ResponseEntity<Todo> updateTodo(@PathVariable Long id, @RequestBody Todo updatedTodo) {
+    public ResponseEntity<Todo> updateTodo(@PathVariable("id") Long id, @RequestBody Todo updatedTodo) {
         if (!todoService.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
@@ -52,7 +52,7 @@ public class TodoController {
 
     // 일부 필드만 수정 (Patch)
     @PatchMapping("/{id}")
-    public ResponseEntity<Todo> patchTodo(@PathVariable Long id, @RequestBody Todo partialTodo) {
+    public ResponseEntity<Todo> patchTodo(@PathVariable("id") Long id, @RequestBody Todo partialTodo) {
         return todoService.findById(id)
                 .map(existing -> {
                     if (partialTodo.getTitle() != null) {
@@ -67,7 +67,7 @@ public class TodoController {
 
     // ToDo 삭제
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTodo(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTodo(@PathVariable("id") Long id) {
         if (!todoService.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
